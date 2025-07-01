@@ -26,14 +26,32 @@ let mnistSession = null;
 let fashionSession = null;
 let shapeSession = null;
 
+document.getElementById('mnist-result').textContent = 'Modèle en cours de chargement...';
+document.getElementById('fashion-result').textContent = 'Modèle en cours de chargement...';
+document.getElementById('shape-result').textContent = 'Modèle en cours de chargement...';
+document.getElementById('draw-result').textContent = 'Modèle en cours de chargement...';
+
 async function loadModels() {
-	mnistSession = await ort.InferenceSession.create('mnistcnn.onnx');
-	fashionSession = await ort.InferenceSession.create('fashioncnn.onnx');
-	shapeSession = await ort.InferenceSession.create('shapescnn.onnx');
-	document.getElementById('mnist-result').textContent = 'Modèle MNIST chargé !';
-	document.getElementById('fashion-result').textContent = 'Modèle FashionMNIST chargé !';
-	document.getElementById('shape-result').textContent = 'Modèle Formes chargé !';
-	document.getElementById('draw-result').textContent = 'Modèle Formes chargé !';
+	try {
+		mnistSession = await ort.InferenceSession.create('mnistcnn.onnx');
+		document.getElementById('mnist-result').textContent = 'Modèle MNIST chargé !';
+	} catch {
+		document.getElementById('mnist-result').textContent = 'Erreur chargement modèle MNIST';
+	}
+	try {
+		fashionSession = await ort.InferenceSession.create('fashioncnn.onnx');
+		document.getElementById('fashion-result').textContent = 'Modèle FashionMNIST chargé !';
+	} catch {
+		document.getElementById('fashion-result').textContent = 'Erreur chargement modèle FashionMNIST';
+	}
+	try {
+		shapeSession = await ort.InferenceSession.create('shapescnn.onnx');
+		document.getElementById('shape-result').textContent = 'Modèle Formes chargé !';
+		document.getElementById('draw-result').textContent = 'Modèle Formes chargé !';
+	} catch {
+		document.getElementById('shape-result').textContent = 'Erreur chargement modèle Formes';
+		document.getElementById('draw-result').textContent = 'Erreur chargement modèle Formes';
+	}
 }
 loadModels();
 
@@ -48,7 +66,11 @@ mnistCanvas.addEventListener('mousedown', (e) => {
 	mnistCtx.lineWidth = 24;
 	mnistCtx.lineCap = 'round';
 	mnistCtx.strokeStyle = '#fff';
+	const rect = mnistCanvas.getBoundingClientRect();
+	const x = e.clientX - rect.left;
+	const y = e.clientY - rect.top;
 	mnistCtx.beginPath();
+	mnistCtx.moveTo(x, y);
 });
 mnistCanvas.addEventListener('mouseup', () => {
 	drawing = false;
@@ -212,13 +234,16 @@ document.getElementById('shape-predict-btn').addEventListener('click', async fun
 const drawCanvas = document.getElementById('draw-canvas');
 const drawCtx = drawCanvas.getContext('2d');
 let drawingShape = false;
-
 drawCanvas.addEventListener('mousedown', (e) => {
 	drawingShape = true;
-	drawCtx.lineWidth = 14;
+	drawCtx.lineWidth = 24;
 	drawCtx.lineCap = 'round';
 	drawCtx.strokeStyle = '#fff';
+	const rect = drawCanvas.getBoundingClientRect();
+	const x = e.clientX - rect.left;
+	const y = e.clientY - rect.top;
 	drawCtx.beginPath();
+	drawCtx.moveTo(x, y);
 });
 drawCanvas.addEventListener('mouseup', () => {
 	drawingShape = false;
