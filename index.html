@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Démo IA - Chiffres, Mode & Formes</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header>
+			<h1>
+				<span class="logo">🧠</span>
+				Démo IA : Chiffres, Mode & Formes
+			</h1>
+			<p class="subtitle">Reconnaissance de chiffres, vêtements et formes géométriques</p>
+			<button id="theme-toggle" aria-label="Changer le thème" title="Changer le thème">
+				<span id="theme-icon">🌙</span>
+			</button>
+		</header>
+		<main>
+			<section class="card">
+				<h2>Chiffre manuscrit (MNIST)</h2>
+				<canvas id="mnist-canvas" width="280" height="280"></canvas>
+				<button id="mnist-clear-btn" class="clear-btn">Effacer</button>
+				<button id="mnist-predict-btn" class="action-btn">Prédire le chiffre</button>
+				<div id="mnist-result" class="result"></div>
+			</section>
+			<section class="card">
+				<h2>Article de mode (FashionMNIST)</h2>
+				<label class="file-label">
+					<input type="file" id="fashion-image-input" accept="image/*" />
+					<span>Choisir une image</span>
+				</label>
+				<canvas id="fashion-canvas" width="28" height="28"></canvas>
+				<button id="fashion-predict-btn" class="action-btn">Prédire la classe</button>
+				<div id="fashion-result" class="result"></div>
+			</section>
+			<section class="card geometrie">
+				<h2>Forme géométrique</h2>
+				<div class="shape-flex-row">
+					<div class="shape-upload">
+						<label class="file-label">
+							<input type="file" id="shape-image-input" accept="image/*" />
+							<span>Image</span>
+						</label>
+						<canvas id="shape-canvas" width="28" height="28"></canvas>
+						<button id="shape-predict-btn" class="action-btn">Prédire</button>
+						<div id="shape-result" class="result"></div>
+					</div>
+					<div class="shape-draw">
+						<canvas id="draw-canvas" width="280" height="280"></canvas>
+						<div class="draw-btns">
+							<button id="draw-clear-btn" class="clear-btn">Effacer</button>
+							<button id="draw-predict-btn" class="action-btn">Prédire</button>
+						</div>
+						<div id="draw-result" class="result"></div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<footer>
+			<p>Démo IA &middot; Hugo &middot; 2025</p>
+		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
+		<script src="app.js"></script>
+	</body>
+</html>

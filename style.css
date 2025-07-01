@@ -1,0 +1,213 @@
+:root {
+  --primary: #4299e1;
+  --primary-dark: #2b6cb0;
+  --accent: #667eea;
+  --bg: #f7fafc;
+  --card-bg: #fff;
+  --border: #e2e8f0;
+  --shadow: 0 8px 32px rgba(60, 60, 120, 0.09);
+  --radius: 18px;
+  --font: 'Segoe UI', Arial, sans-serif;
+  --text: #2d3748;
+  --subtitle: #718096;
+  --result: #4299e1;
+}
+
+[data-theme="dark"] {
+  --primary: #90cdf4;
+  --primary-dark: #63b3ed;
+  --accent: #7f9cf5;
+  --bg: #181a1b;
+  --card-bg: #23272f;
+  --border: #23272f;
+  --shadow: 0 8px 32px rgba(30, 41, 59, 0.18);
+  --text: #f7fafc;
+  --subtitle: #a0aec0;
+  --result: #90cdf4;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  text-align: center;
+  padding: 32px 0 16px;
+  position: relative;
+}
+.logo {
+  font-size: 1.6em;
+  vertical-align: middle;
+}
+.subtitle {
+  color: var(--subtitle);
+  font-size: 1.1em;
+  margin-top: 4px;
+}
+#theme-toggle {
+  position: absolute;
+  top: 32px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 1.7em;
+  cursor: pointer;
+  color: var(--primary-dark);
+  transition: color 0.2s;
+}
+#theme-toggle:hover { color: var(--accent); }
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  padding-bottom: 32px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 32px 24px 24px 24px;
+  min-width: 320px;
+  max-width: 480px;
+  flex: 1 1 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.geometrie {
+  min-width: 900px;
+  max-width: 1100px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 32px 24px 24px 24px;
+}
+
+h2 {
+  color: var(--primary);
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.file-label {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background 0.2s;
+}
+.file-label:hover { background: var(--primary-dark); }
+.file-label input[type="file"] { display: none; }
+
+canvas {
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  margin: 0 auto 8px auto;
+  display: block;
+  box-shadow: 0 2px 12px rgba(66, 153, 225, 0.04);
+  transition: background 0.3s, border 0.3s;
+  background: #000 !important;
+}
+
+#fashion-canvas,#shape-canvas {
+  width: 84px;
+  height: 84px;
+  image-rendering: pixelated;
+  background: #f7fafc !important;
+}
+
+#mnist-canvas, #draw-canvas {
+  width: 280px !important;
+  height: 280px !important;
+  background: #000 !important;
+  image-rendering: pixelated;
+}
+
+.action-btn, .clear-btn {
+  border: none;
+  border-radius: 8px;
+  font-size: 1.08em;
+  padding: 10px 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.action-btn {
+  background: var(--primary);
+  color: #fff;
+}
+.action-btn:hover {
+  background: var(--primary-dark);
+  transform: scale(1.04);
+}
+.clear-btn {
+  background: #e53e3e;
+  color: #fff;
+  margin-left: 12px;
+  padding: 8px 18px;
+}
+.clear-btn:hover { background: #c53030; }
+
+.result {
+  font-size: 1.18em;
+  margin-top: 10px;
+  min-height: 32px;
+  color: var(--result);
+  text-align: center;
+  word-break: break-word;
+}
+
+.shape-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 64px;
+  width: 100%;
+  justify-content: center;
+}
+.shape-upload, .shape-draw {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 350px;
+  min-width: 220px;
+}
+.shape-draw .draw-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+@media (max-width: 1100px) {
+  .geometrie { min-width: unset; max-width: 98vw; }
+  .shape-flex-row { flex-direction: column; gap: 24px; }
+  .shape-upload, .shape-draw { min-width: unset; width: 100%; }
+  #shape-canvas, #draw-canvas { width: 98vw !important; max-width: 340px; }
+}
+
+footer {
+  text-align: center;
+  color: #a0aec0;
+  font-size: 0.97em;
+  padding: 18px 0 8px;
+  margin-top: 24px;
+}
