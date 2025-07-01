@@ -317,3 +317,69 @@ themeToggle.addEventListener('click', () => {
 	const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 	setTheme(stored ? stored === 'dark' : prefersDark);
 })();
+
+ort.env.wasm.wasmPaths = 'https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/';
+
+let newsSession = null;
+let newsVectorizer = null;
+
+async function loadNewsModel() {
+    try {
+        newsSession = await ort.InferenceSession.create('news_classifier.onnx');
+        const resp = await fetch('news_vectorizer.json');
+        newsVectorizer = await resp.json();
+        document.getElementById('news-result').textContent = 'Modèle News chargé !';
+    } catch (err) {
+        document.getElementById('news-result').textContent = 'Erreur chargement modèle News';
+        console.error(err);
+    }
+}
+loadNewsModel();
+
+function vectorize(text, vectorizer) {
+    text = text.toLowerCase().replace(/[^a-z0-9 ]/g, ' ');
+    const words = text.split(/\s+/);
+    const features = vectorizer.vocabulary;
+    const vec = new Float32Array(features.length);
+    for (let i = 0; i < features.length; ++i) {
+        const word = features[i];
+        vec[i] = words.filter(w => w === word).length * vectorizer.idf[i];
+    }
+    return vec;
+}
+
+const newsLabels = ['World', 'Sports', 'Business', 'Sci/Tech'];
+
+document.getElementById('news-predict-btn').addEventListener('click', async function () {
+    const input = document.getElementById('news-input').value.trim();
+    const resultDiv = document.getElementById('news-result');
+    if (!input) {
+        resultDiv.textContent = "Veuillez entrer un titre d'article.";
+        return;
+    }
+    if (!newsSession || !newsVectorizer) {
+        resultDiv.textContent = 'Modèle non chargé...';
+        return;
+    }
+    resultDiv.textContent = 'Prédiction en cours...';
+    const inputVec = vectorize(input, newsVectorizer);
+    const inputTensor = new ort.Tensor('float32', inputVec, [1, inputVec.length]);
+    try {
+        const feeds = { input: inputTensor };
+        const results = await newsSession.run(feeds);
+        const output = results.output.data;
+        const maxIdx = output.indexOf(Math.max(...output));
+        resultDiv.textContent = `Catégorie : ${newsLabels[maxIdx]}`;
+        resultDiv.style.color = '#4299e1';
+    } catch (err) {
+        resultDiv.textContent = 'Erreur lors de la prédiction : ' + err;
+        resultDiv.style.color = '#e53e3e';
+    }
+});
+
+document.querySelectorAll('.example-news-btn').forEach((btn) => {
+    btn.addEventListener('click', function () {
+        document.getElementById('news-input').value = this.textContent;
+    });
+});
+

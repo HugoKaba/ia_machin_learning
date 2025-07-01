@@ -211,3 +211,35 @@ footer {
   padding: 18px 0 8px;
   margin-top: 24px;
 }
+
+#news-card {
+  max-width: 480px;
+  margin: 0 auto 32px auto;
+}
+#news-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 1em;
+  margin-bottom: 12px;
+}
+.news-examples {
+  margin-top: 10px;
+}
+.example-news-btn {
+  background: var(--border);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font-size: 0.98em;
+  margin: 2px 4px 2px 0;
+  transition: background 0.2s, color 0.2s;
+}
+.example-news-btn:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
